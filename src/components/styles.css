@@ -1,0 +1,31 @@
+.container {
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.repositoriesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 0.625rem;
+}
+
+.repository {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  width: 25%;
+  height: 12.5rem;
+  border: 0.0625rem solid #000;
+
+  margin: 0.625rem;
+}
+
+.repositoryContentText {
+  word-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+}
