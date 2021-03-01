@@ -14,6 +14,8 @@ const App: FC = () => {
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       if (userName !== "") {
+        setLoading(true);
+
         const response = await fetch(
           `https://api.github.com/users/${userName}/repos`
         );

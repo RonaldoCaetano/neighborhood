@@ -105,7 +105,11 @@
 }
 
 @media (min-width: 1024px) {
-  .repository {
-    width: 25%;
+  .repositories-container {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: repeat(4, 1fr);
+    column-count: 3;
+    column-gap: 1.25rem;
   }
 }
