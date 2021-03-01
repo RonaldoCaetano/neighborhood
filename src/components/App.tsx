@@ -1,46 +1,58 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useState } from "react";
+import Repository from "./Repository";
+import SendForm from "./SendForm";
 
 import "./styles.css";
 
 const App: FC = () => {
   const [userName, setUserName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [noRepositories, setNoRepositories] = useState(false);
   const [userRepositories, setUserRepositories] = useState<Repository[]>([]);
 
-  useEffect(() => {
-    if (userName !== "") {
-      fetch(`https://api.github.com/users/${userName}/repos`)
-        .then((data) => data.json())
-        .then((repositories) => setUserRepositories(repositories));
-    } else {
-      setUserRepositories([]);
-    }
-  }, [userName]);
+  const handleSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (userName !== "") {
+        setLoading(true);
+        fetch(`https://api.github.com/users/${userName}/repos`)
+          .then((data) => data.json())
+          .then((repositories) => {
+            setLoading(false);
+
+            if (repositories?.length) {
+              noRepositories && setNoRepositories(false);
+              setUserRepositories(repositories);
+            } else {
+              setNoRepositories(true);
+            }
+          });
+      }
+    },
+    [userName, noRepositories]
+  );
 
   return (
-    <div className="container">
-      <label htmlFor="github-username">Github Username</label>
-      <input
-        type="text"
-        id="github-username"
-        name="github-username"
-        onBlur={(e) => setUserName(e.currentTarget.value)}
+    <section className="container">
+      <SendForm
+        handleSubmit={handleSubmit}
+        loading={loading}
+        setUserName={setUserName}
       />
-
-      <section className="repositoriesContainer">
-        {userRepositories.map((repository) => (
-          <article key={repository.id} className="repository">
-            <p className="repositoryContentText">
-              <strong>Repository Name: </strong>
-              <span>{repository.name}</span>
-            </p>
-            <p className="repositoryContentText">
-              <strong>Repository URL: </strong>
-              <span>{repository.url}</span>
-            </p>
-          </article>
-        ))}
+      <section className="repositories-container">
+        {!noRepositories ? (
+          <>
+            {userRepositories.map((repository) => (
+              <Repository key={repository.id} repositoryData={repository} />
+            ))}
+          </>
+        ) : (
+          <div className="empty-list-message">
+            <p>Não encontramos nenhum repositório :(</p>
+          </div>
+        )}
       </section>
-    </div>
+    </section>
   );
 };
 

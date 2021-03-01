@@ -27,3 +27,13 @@ interface RepositoryOwner {
   avatar_url: string;
   html_url: string;
 }
+
+interface RepositoryProps {
+  repositoryData: Repository;
+}
+
+interface SendFormProps {
+  loading: boolean;
+  setUserName: (param: string) => void;
+  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+}
