@@ -11,22 +11,22 @@ const App: FC = () => {
   const [userRepositories, setUserRepositories] = useState<Repository[]>([]);
 
   const handleSubmit = useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
+    async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       if (userName !== "") {
-        setLoading(true);
-        fetch(`https://api.github.com/users/${userName}/repos`)
-          .then((data) => data.json())
-          .then((repositories) => {
-            setLoading(false);
+        const response = await fetch(
+          `https://api.github.com/users/${userName}/repos`
+        );
+        const repositories = await response.json();
 
-            if (repositories?.length) {
-              noRepositories && setNoRepositories(false);
-              setUserRepositories(repositories);
-            } else {
-              setNoRepositories(true);
-            }
-          });
+        setLoading(false);
+
+        if (repositories?.length) {
+          noRepositories && setNoRepositories(false);
+          setUserRepositories(repositories);
+        } else {
+          setNoRepositories(true);
+        }
       }
     },
     [userName, noRepositories]
