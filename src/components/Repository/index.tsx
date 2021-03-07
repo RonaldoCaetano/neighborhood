@@ -2,7 +2,11 @@ import React, { FC } from "react";
 
 const Repository: FC<RepositoryProps> = ({ repositoryData }) => {
   return (
-    <article key={repositoryData.id} className="repository">
+    <article
+      key={repositoryData.id}
+      className="repository"
+      data-testid="repository"
+    >
       <p className="repository-content-text repository-name">
         <strong>Repository:&nbsp;</strong>
         <a

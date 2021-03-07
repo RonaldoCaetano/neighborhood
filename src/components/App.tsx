@@ -41,7 +41,10 @@ const App: FC = () => {
         loading={loading}
         setUserName={setUserName}
       />
-      <section className="repositories-container">
+      <section
+        className="repositories-container"
+        data-testid="repositories-container"
+      >
         {!noRepositories ? (
           <>
             {userRepositories.map((repository) => (

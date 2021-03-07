@@ -20,7 +20,7 @@ const SendForm: FC<SendFormProps> = ({
         onBlur={(e) => setUserName(e.currentTarget.value)}
         required
       />
-      <button type="submit" name="send-name">
+      <button type="submit" name="send-name" data-testid="send-name">
         {loading ? <Spinner /> : "Enviar"}
       </button>
     </form>
